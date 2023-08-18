@@ -49,7 +49,7 @@ class LoginController
                     'mensaje' => 'Usuario no encontrado'
                 ]);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo json_encode([
                 'detalle' => $e->getMessage(),
                 'codigo' => 0,

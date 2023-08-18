@@ -3,7 +3,6 @@ const formLogin = document.querySelector('form');
 const closeSessionRequest = async e => {
     e.preventDefault();
 
-   
 
     try {
         const url = "/login_prueba/API/closeSession"; 
@@ -20,12 +19,6 @@ const closeSessionRequest = async e => {
         
         
         window.location.href = '/login_prueba/';
-            ///SE AGREGO ESTA ESTRUCTURA DE CODIGO PARA REDIRECCIONAR AL MENU
-        // if (redireccion) {
-        //      window.location.href = redireccion;
-        //     return;
-        // }
-
 
       
     } catch (error) {
@@ -34,3 +27,4 @@ const closeSessionRequest = async e => {
 }
 
 formLogin.addEventListener('submit', closeSessionRequest);
+
