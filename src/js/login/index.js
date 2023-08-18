@@ -30,10 +30,19 @@ const login = async e => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        const {codigo, mensaje, detalle} = data;
+        const {codigo, mensaje, redireccion} = data;
         let icon = 'info';
         if(codigo == 1){
             icon = 'success'
+            window.location.href = redireccion
+
+            ///SE AGREGO ESTA ESTRUCTURA DE CODIGO PARA REDIRECCIONAR AL MENU
+        // if (redireccion) {
+        //      window.location.href = redireccion;
+        //     return;
+        // }
+
+
         }else if(codigo == 2){
             icon = 'warning'
         }else{

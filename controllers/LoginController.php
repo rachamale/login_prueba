@@ -5,13 +5,20 @@ namespace Controllers;
 use MVC\Router;
 use Model\Usuario;
 
-class LoginController {
+class LoginController
+{
 
-    public static function index(Router $router) {
-        $router->render('login/index', []);
+    public static function index(Router $router)
+    {
+        if ($_SESSION['auth_user'] == "") {
+            $router->render('login/index', []);
+        } else {
+            $router->render('menu/index', []);
+        }
     }
 
-    public static function loginAPI() {
+    public static function loginAPI()
+    {
         $catalogo = filter_var($_POST['usu_catalogo'], FILTER_SANITIZE_NUMBER_INT);
         $password = filter_var($_POST['usu_password'], FILTER_DEFAULT);
         $usuarioRegistrado = Usuario::fetchFirst("SELECT * FROM usuario WHERE usu_catalogo = $catalogo");
@@ -20,14 +27,15 @@ class LoginController {
             if (is_array($usuarioRegistrado)) {
                 $verificacion = password_verify($password, $usuarioRegistrado['usu_password']);
                 $nombre = $usuarioRegistrado["usu_nombre"];
-                
+
                 if ($verificacion) {
                     session_start();
                     $_SESSION['auth_user'] = $catalogo;
 
                     echo json_encode([
                         'codigo' => 1,
-                        'mensaje' => "Sesión iniciada correctamente. Bienvenido $nombre"
+                        'mensaje' => "Sesión iniciada correctamente. Bienvenido $nombre",
+                        'redireccion' => '/login_prueba/menu'
                     ]);
                 } else {
                     echo json_encode([
@@ -41,7 +49,7 @@ class LoginController {
                     'mensaje' => 'Usuario no encontrado'
                 ]);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo json_encode([
                 'detalle' => $e->getMessage(),
                 'codigo' => 0,
